@@ -2,11 +2,22 @@ cmake_minimum_required(VERSION 3.15)
 
 project(camellia)
 
+set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(
-        camellia
-        main.cc
+add_subdirectory(third_party/googletest-1.15.2)
+
+add_library(
+        camellia_lib STATIC
         token/token.cc
         token/utils.cc
 )
+
+add_executable(
+        camellia_test
+        token/utils_test.cc
+)
+target_link_libraries(camellia_test PRIVATE camellia_lib gtest gtest_main)
+
+add_executable(camellia main.cc)
+target_link_libraries(camellia PRIVATE camellia_lib)
