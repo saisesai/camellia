@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "utils.h"
+#include "token_utils.h"
 
 #include <string>
 #include <vector>
@@ -27,6 +27,6 @@ TEST(token_utils_test, test_is_identifier) {
   };
   for (const auto& [name, in, want] : tests) {
     bool got = utils::is_identifier(in);
-    EXPECT_EQ(got, want) << "Test " << name << "Error!";
+    EXPECT_EQ(got, want) << "test " << name << " failed!";
   }
 }

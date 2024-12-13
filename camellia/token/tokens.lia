@@ -1,0 +1,6 @@
+import std/container/map[map_t];
+
+def tokens map_t<token_t, string> = {
+    {k_begin, "BEGIN"},
+    {k_end, "END"},
+}
