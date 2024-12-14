@@ -71,7 +71,7 @@ Camellia is licensed under BSD 3-Clause License:
 ```
 BSD 3-Clause License
 
-Copyright (c) 2024, saisesai
+Copyright (c) 2024, camellia development team
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
