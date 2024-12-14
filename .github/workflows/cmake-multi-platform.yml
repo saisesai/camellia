@@ -70,9 +70,10 @@ jobs:
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
+      shell: bash
       run: |
         if [ "$RUNNER_OS" == "Windows" ]; then
-          .\Release\camellia_test.exe
+          ./Release/camellia_test.exe
         else
           ./camellia_test
         fi
