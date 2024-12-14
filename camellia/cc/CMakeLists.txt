@@ -7,10 +7,6 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(third_party/googletest-1.15.2)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
-
 add_library(
         camellia_lib STATIC
         token/file.cc
