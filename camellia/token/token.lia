@@ -4,9 +4,9 @@ def token_t enum {
     k_end;
 
     def string proc(self): string {
-        if tokens.find(self) == nil {
-            return tokens[self]
+        if tokens.find(self) != nil {
+            return tokens[self];
         }
-        return "TOKEN(" + string(self) + ")"
-    }
-}
+        return "TOKEN(" + string(self) + ")";
+    };
+};

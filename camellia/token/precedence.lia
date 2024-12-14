@@ -4,6 +4,6 @@
 // precedence serves as "catch-all" precedence for selector,
 // indexing, and other operator and delimiter tokens.
 
-def k_lowest_prec int = 0  // non-operators
-def k_unary_prec const int = 6
-def k_highest_prec const int = 7
+def k_lowest_prec const int = 0;  // non-operators
+def k_unary_prec const int = 6;
+def k_highest_prec const int = 7;

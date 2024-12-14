@@ -22,6 +22,7 @@ class file_t {
   std::vector<int> _lines;
   std::vector<line_info_t> _infos;
 };
+
 }  // namespace camellia::token
 
 #endif  // CAMELLIA_TOKEN_FILE_H

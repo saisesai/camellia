@@ -13,12 +13,11 @@ add_library(
         token/pos.cc
         token/position.cc
         token/token.cc
-        token/token_utils.cc
 )
 
 add_executable(
         camellia_test
-        token/token_utils_test.cc
+        token/token_test.cc
 )
 target_link_libraries(camellia_test PRIVATE camellia_lib gtest gtest_main)
 

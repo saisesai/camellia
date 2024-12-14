@@ -1,14 +1,14 @@
-#include "gtest/gtest.h"
-
-#include "token_utils.h"
+#include "token.h"
 
 #include <string>
 #include <vector>
 
+#include "gtest/gtest.h"
+
 using namespace std;
 using namespace camellia::token;
 
-TEST(token_utils_test, test_is_identifier) {
+TEST(token_test, test_is_identifier) {
   struct test_t {
     string name;
     string in;
@@ -26,7 +26,7 @@ TEST(token_utils_test, test_is_identifier) {
       {"UppercaseKeyword", "Func", true},
   };
   for (const auto& [name, in, want] : tests) {
-    bool got = utils::is_identifier(in);
+    bool got = is_identifier(in);
     EXPECT_EQ(got, want) << "test " << name << " failed!";
   }
 }
