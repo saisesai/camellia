@@ -1,9 +1,7 @@
 #ifndef CAMELLIA_TOKEN_FILE_H
 #define CAMELLIA_TOKEN_FILE_H
 
-#include <mutex>
-#include <string>
-#include <vector>
+#include "config.h"
 
 #include "line_info.h"
 
@@ -21,6 +19,23 @@ class file_t {
   // lines contains the offset of the first character for each line (the first entry is always 0).
   std::vector<int> _lines;
   std::vector<line_info_t> _infos;
+
+  // name returns the file name of file f as registered with add_file.
+  [[nodiscard]] std::string name() const;
+
+  // base returns the base offset of file f as registered with add_file.
+  [[nodiscard]] int base() const;
+
+  // size returns the size of file f as registered with add_file.
+  [[nodiscard]] int size() const;
+
+  // line_count returns the number of lines in file f.
+  [[nodiscard]] int line_count();
+
+  // add_line adds the line offset for a new line.
+  // The line offset must be larger than the offset for the previous line
+  // and smaller than the file size; otherwise the line offset is ignored.
+  void add_line(int p_offset);
 };
 
 }  // namespace camellia::token

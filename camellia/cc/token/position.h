@@ -1,7 +1,7 @@
 #ifndef CAMELLIA_TOKEN_POSITION_H
 #define CAMELLIA_TOKEN_POSITION_H
 
-#include <string>
+#include "config.h"
 
 namespace camellia::token {
 

@@ -1,8 +1,7 @@
 #ifndef CAMELLIA_TOKEN_H
 #define CAMELLIA_TOKEN_H
 
-#include <map>
-#include <string>
+#include "config.h"
 
 namespace camellia::token {
 

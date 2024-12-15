@@ -1,8 +1,5 @@
 #include "token.h"
 
-#include <string>
-#include <vector>
-
 #include "gtest/gtest.h"
 
 using namespace std;

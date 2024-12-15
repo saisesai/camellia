@@ -70,14 +70,14 @@ std::map<token_t, std::string> token_t::tokens = {
 };
 
 std::string token_t::string() const {
-  if (tokens.find(_value) != tokens.end()) {
-    return tokens[_value];
+  if (self.tokens.find(self._value) != self.tokens.end()) {
+    return self.tokens[self._value];
   }
-  return "TOKEN(" + std::to_string(_value) + ")";
+  return "TOKEN(" + std::to_string(self._value) + ")";
 }
 
 int token_t::precedence() const {
-  switch (_value) {
+  switch (self._value) {
     case k_lor:
       return 1;
     case k_land:
@@ -108,19 +108,19 @@ int token_t::precedence() const {
 }
 
 bool token_t::is_literal() const {
-  return k_literal_begin < _value && _value < k_literal_end;
+  return k_literal_begin < self._value && self._value < k_literal_end;
 }
 
 bool token_t::is_operator() const {
-  return k_operator_begin < _value && _value < k_operator_end;
+  return k_operator_begin < self._value && self._value < k_operator_end;
 }
 
 bool token_t::is_keyword() const {
-  return k_keyword_begin < _value && _value < k_keyword_end;
+  return k_keyword_begin < self._value && self._value < k_keyword_end;
 }
 
 bool token_t::operator<(const token_t& p_rhs) const {
-  return _value < p_rhs._value;
+  return self._value < p_rhs._value;
 }
 
 token_t lookup(const std::string& p_ident) {

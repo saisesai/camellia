@@ -1,7 +1,7 @@
 #ifndef LINE_INFO_H
 #define LINE_INFO_H
 
-#include <string>
+#include "config.h"
 
 namespace camellia::token {
 

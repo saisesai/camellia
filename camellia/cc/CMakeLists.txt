@@ -14,6 +14,7 @@ add_library(
         token/position.cc
         token/token.cc
 )
+target_include_directories(camellia_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(
         camellia_test

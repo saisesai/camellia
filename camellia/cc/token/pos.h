@@ -1,6 +1,8 @@
 #ifndef CAMELLIA_TOKEN_POS_H
 #define CAMELLIA_TOKEN_POS_H
 
+#include "config.h"
+
 namespace camellia::token {
 // pos_t is a compact encoding of a source position within a file set.
 // It can be converted into a postion_t for a more convenient, but much
@@ -26,7 +28,7 @@ namespace camellia::token {
 // to the respective file set before the file implied by q.
 class pos_t {
  public:
-  const int no_pos = 0;
+  const int k_no_pos = 0;
   int value = 0;
 
   [[nodiscard]] bool is_valid() const;
