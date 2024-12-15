@@ -65,14 +65,14 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration. Note that --config is needed because the default Windows generator is a multi-config generator (Visual Studio generator).
-      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
+      run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }} --target=camellia_test
 
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       shell: bash
       run: |
         if [ "$RUNNER_OS" == "Windows" ]; then
-          ./camellia_test.exe
+          camellia_test.exe
         else
           ./camellia_test
         fi
