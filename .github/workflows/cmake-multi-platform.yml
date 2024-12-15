@@ -72,7 +72,7 @@ jobs:
       shell: bash
       run: |
         if [ "$RUNNER_OS" == "Windows" ]; then
-          camellia_test.exe
+          ./camellia_test.exe
         else
           ./camellia_test
         fi
