@@ -42,6 +42,20 @@ class file_t {
   // remaining offsets). To obtain the line number, consult e.g. Position.Line.
   // merge_line will panic if given an invalid line number.
   void merge_line(int p_line);
+
+  // lines returns the effective line offset table of the form described by set_lines.
+  // Callers must not mutate the result.
+  [[nodiscard]] std::vector<int> lines();
+
+  // set_lines sets the line offsets for a file and reports whether it succeeded.
+  // The line offsets are the offsets of the first character of each line;
+  // for instance for the content "ab\nc\n" the line offsets are {0, 3}.
+  // An empty file has an empty line offset table.
+  // Each line offset must be larger than the offset for the previous line
+  // and smaller than the file size; otherwise set_lines fails and returns
+  // false.
+  // Callers must not mutate the provided slice after SetLines returns.
+  void set_lines(const std::vector<int>& p_lines);
 };
 
 }  // namespace camellia::token
