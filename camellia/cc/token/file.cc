@@ -30,4 +30,25 @@ void file_t::add_line(int p_offset) {
   self._mutex.unlock();
 }
 
+void file_t::merge_line(int p_line) {
+  if (p_line < 1) {
+    throw std::runtime_error(
+        fmt::format("invalid line number {} (should be >= 1)", p_line));
+  }
+  self._mutex.lock();
+  defer _(nullptr, [&](...) { self._mutex.unlock(); });
+  if (p_line > self._lines.size()) {
+    throw std::runtime_error(fmt::format(
+        "invalid line number %d (should be < %d)", p_line, self._lines.size()));
+  }
+  // To merge the line numbered <p_line> with the line numbered <p_line+1>,
+  // we need to remove the entry in lines corresponding to the line
+  // numbered <p_line+1>. The entry in lines corresponding to the line
+  // numbered <p_line+1> is located at index <p_line>, since indices in lines
+  // are 0-based and line numbers are 1-based.
+  std::copy(self._lines.begin() + p_line + 1, self._lines.end(),
+            self._lines.begin() + p_line);
+  self._lines.pop_back();
+}
+
 }  // namespace camellia::token

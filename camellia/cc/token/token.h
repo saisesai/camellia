@@ -113,9 +113,6 @@ class token_t {
     k_highest_prec = 7,
   };
 
-  // map<token int value, token string value>
-  static std::map<token_t, std::string> tokens;
-
   // Default constructor.
   token_t() = default;
 
@@ -150,6 +147,9 @@ class token_t {
  private:
   value _value = k_illegal;
 };
+
+// map<token int value, token string value>
+extern std::map<token_t, std::string> g_tokens;
 
 // Maps an identifier to its keyword token or IDENT (if not a keyword).
 token_t lookup(const std::string& p_ident);

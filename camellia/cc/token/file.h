@@ -36,6 +36,12 @@ class file_t {
   // The line offset must be larger than the offset for the previous line
   // and smaller than the file size; otherwise the line offset is ignored.
   void add_line(int p_offset);
+
+  // merge_line merges a line with the following line. It is akin to replacing
+  // the newline character at the end of the line with a space (to not change the
+  // remaining offsets). To obtain the line number, consult e.g. Position.Line.
+  // merge_line will panic if given an invalid line number.
+  void merge_line(int p_line);
 };
 
 }  // namespace camellia::token

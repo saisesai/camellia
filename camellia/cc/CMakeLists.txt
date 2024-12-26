@@ -5,6 +5,7 @@ project(camellia)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
+add_subdirectory(third_party/fmt-11.1.0)
 add_subdirectory(third_party/googletest-1.15.2)
 
 add_library(
@@ -15,6 +16,7 @@ add_library(
         token/token.cc
 )
 target_include_directories(camellia_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(camellia_lib PUBLIC fmt::fmt)
 
 add_executable(
         camellia_test
