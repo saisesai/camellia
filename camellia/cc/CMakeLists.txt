@@ -10,6 +10,9 @@ add_subdirectory(third_party/googletest-1.15.2)
 
 add_library(
         camellia_lib STATIC
+
+        common/defer.cc
+
         token/file.cc
         token/pos.cc
         token/position.cc

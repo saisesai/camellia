@@ -36,7 +36,7 @@ void file_t::merge_line(int p_line) {
         fmt::format("invalid line number {} (should be >= 1)", p_line));
   }
   self._mutex.lock();
-  defer _(nullptr, [&](...) { self._mutex.unlock(); });
+  defer(self._mutex.unlock());
   if (p_line > self._lines.size()) {
     throw std::runtime_error(fmt::format(
         "invalid line number %d (should be < %d)", p_line, self._lines.size()));
@@ -53,7 +53,7 @@ void file_t::merge_line(int p_line) {
 
 std::vector<int> file_t::lines() {
   self._mutex.lock();
-  defer _(nullptr, [&](...) { self._mutex.unlock(); });
+  defer(self._mutex.unlock());
   auto copy = self._lines;
   return copy;
 }
@@ -62,12 +62,12 @@ void file_t::set_lines(const std::vector<int>& p_lines) {
   // varify validity of lines table
   for (int i = 0; i < p_lines.size(); i++) {
     if (i > 0 && p_lines[i] <= p_lines[i - 1] || p_lines.size() <= p_lines[i]) {
-      throw std::runtime_error("wrong offset");
+      throw std::runtime_error("invalid line");
     }
   }
   // set value
   self._mutex.lock();
-  defer _(nullptr, [&](...) { self._mutex.unlock(); });
+  defer(self._mutex.unlock());
   self._lines = p_lines;
 }
 

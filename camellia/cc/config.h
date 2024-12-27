@@ -2,6 +2,7 @@
 #define CMELLIA_CONFIG_H
 
 #include <functional>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <mutex>
@@ -11,10 +12,12 @@
 
 #include "fmt/core.h"
 
+#include "common/defer.h"
+
 #define self (*(this))
 
 namespace camellia {
-using defer = std::shared_ptr<void>;
+using namespace common;
 }  // namespace camellia
 
 #endif  // CMELLIA_CONFIG_H
