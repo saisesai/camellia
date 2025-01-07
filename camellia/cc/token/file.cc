@@ -65,10 +65,41 @@ void file_t::set_lines(const std::vector<int>& p_lines) {
       throw std::runtime_error("invalid line");
     }
   }
-  // set value
+  // set line table
   self._mutex.lock();
   defer(self._mutex.unlock());
   self._lines = p_lines;
+}
+
+
+void file_t::set_lines_for_content(const std::vector<uint8_t>& p_content) {
+  std::vector<int> lines;
+  int line = 0;
+  for (int i = 0; i < p_content.size(); i++) {
+    if (line >= 0) {
+      lines.emplace_back(line);
+    }
+    line = -1;
+    if (p_content[i] == '\n') {
+      line = i + 1;
+    }
+  }
+  // set line table
+  self._mutex.lock();
+  defer(self._mutex.unlock());
+  self._lines = lines;
+}
+
+pos_t file_t::line_start(int p_line) {
+  if (p_line < 1) {
+    panic("invalid line number {} (should be >= 1)", p_line);
+  }
+  self._mutex.lock();
+  defer(self._mutex.unlock());
+  if(p_line > self._lines.size()) {
+    panic("invalid line number {} (should be < {})", p_line, self._lines.size());
+  }
+  return pos_t(self._base + self._lines[p_line-1]);
 }
 
 }  // namespace camellia::token

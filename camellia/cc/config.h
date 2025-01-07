@@ -14,10 +14,13 @@
 
 #include "common/defer.h"
 
+#define byte uint8_t
 #define self (*(this))
+#define panic(mp_fmt, ...) throw std::runtime_error(fmt::format(mp_fmt, ##__VA_ARGS__))
 
 namespace camellia {
 using namespace common;
 }  // namespace camellia
+
 
 #endif  // CMELLIA_CONFIG_H

@@ -4,6 +4,7 @@
 #include "config.h"
 
 #include "line_info.h"
+#include "pos.h"
 
 namespace camellia::token {
 
@@ -56,6 +57,15 @@ class file_t {
   // false.
   // Callers must not mutate the provided slice after SetLines returns.
   void set_lines(const std::vector<int>& p_lines);
+
+  // set_lines_for_content sets the line offsets for the given file content.
+  // It ignores position-altering //line comments.
+  void set_lines_for_content(const std::vector<byte>& p_content);
+
+  // line_start returns the pos_t value of the start of the specified line.
+  // It ignores any alternative positions set using add_line_colomn_info.
+  // line_start panics if the 1-based line number is invalid.
+  pos_t line_start(int p_line);
 };
 
 }  // namespace camellia::token

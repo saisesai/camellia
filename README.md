@@ -102,16 +102,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ## Development Roadmap
 
-### 0.x Phase
+### 0.0.x Phase
 - Implement a compiler from `lia` to `C` using C++.
 
-### 1.x Phase
+### 0.1.x Phase
 - Achieve self-hosting capabilities.
 
-### 2.x Phase
+### 0.2.x Phase
 - Develop an interpreter for the language.
 
-### 3.x Phase
+### 0.3.x Phase
 - Implement machine code generation and Just-In-Time (JIT) compilation.
 
 Additional information (optional): Include contact details, acknowledgments, or plans for future development.

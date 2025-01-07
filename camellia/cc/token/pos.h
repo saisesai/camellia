@@ -31,6 +31,8 @@ class pos_t {
   const int k_no_pos = 0;
   int value = 0;
 
+  explicit pos_t(int p_value);
+
   [[nodiscard]] bool is_valid() const;
 };
 }  // namespace camellia::token
