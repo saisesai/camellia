@@ -7,11 +7,15 @@ set(CMAKE_CXX_STANDARD 17)
 
 add_subdirectory(third_party/fmt-11.1.0)
 add_subdirectory(third_party/googletest-1.15.2)
+add_subdirectory(third_party/libuv-1.49.2)
 
 add_library(
         camellia_lib STATIC
 
-        common/defer.cc
+        builtin/defer.cc
+
+        common/mutex.cc
+        common/thread.cc
 
         token/file.cc
         token/pos.cc
@@ -19,7 +23,7 @@ add_library(
         token/token.cc
 )
 target_include_directories(camellia_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(camellia_lib PUBLIC fmt::fmt)
+target_link_libraries(camellia_lib PUBLIC fmt::fmt uv_a)
 
 add_executable(
         camellia_test

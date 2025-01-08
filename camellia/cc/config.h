@@ -10,17 +10,17 @@
 #include <string>
 #include <vector>
 
+// 3rd
 #include "fmt/core.h"
+#include "uv.h"
 
-#include "common/defer.h"
+#include "builtin/defer.h"
 
+#define nil 0
+#define def auto
 #define byte uint8_t
 #define self (*(this))
 #define panic(mp_fmt, ...) throw std::runtime_error(fmt::format(mp_fmt, ##__VA_ARGS__))
-
-namespace camellia {
-using namespace common;
-}  // namespace camellia
 
 
 #endif  // CMELLIA_CONFIG_H
