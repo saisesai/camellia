@@ -13,7 +13,7 @@ public:
 
   thread_t(thread_entry_t p_entry, void* p_args);
 
-  virtual ~thread_t();
+  virtual ~thread_t() = default;
 
   void join();
 

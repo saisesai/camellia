@@ -10,10 +10,6 @@ thread_t::thread_t(thread_entry_t p_entry, void* p_args) {
   }
 }
 
-thread_t::~thread_t() {
-  self._uv_thread = nullptr;
-}
-
 void thread_t::join() {
   if(def const err = uv_thread_join(&self._uv_thread); err != nil) {
     panic("falied to join thread: {}", uv_strerror(err));
