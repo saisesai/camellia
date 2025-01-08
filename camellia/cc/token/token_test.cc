@@ -1,6 +1,6 @@
-#include "token.h"
-
 #include "gtest/gtest.h"
+
+#include "token.h"
 
 using namespace std;
 using namespace camellia::token;

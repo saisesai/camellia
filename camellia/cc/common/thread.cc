@@ -4,7 +4,6 @@
 namespace camellia::common {
 
 thread_t::thread_t(thread_entry_t p_entry, void* p_args) {
-  self._uv_thread = nullptr;
   if (def const err = uv_thread_create(&self._uv_thread, p_entry, p_args);
       err != nil) {
     panic("falied to create thread: {}", uv_strerror(err));

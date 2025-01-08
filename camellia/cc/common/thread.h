@@ -18,7 +18,7 @@ public:
   void join();
 
 private:
-  uv_thread_t _uv_thread;
+  uv_thread_t _uv_thread{};
 };
 
 } // namespace camellia::common
