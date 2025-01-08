@@ -3,6 +3,8 @@
 
 #include "config.h"
 
+#include "common/mutex.h"
+
 #include "line_info.h"
 #include "pos.h"
 
@@ -16,7 +18,7 @@ class file_t {
   int _size = 0;      // file size as provided to add_file
 
   // lines and infos are protected by mutex.
-  std::mutex _mutex;
+  common::mutex_t _mutex;
   // lines contains the offset of the first character for each line (the first entry is always 0).
   std::vector<int> _lines;
   std::vector<line_info_t> _infos;

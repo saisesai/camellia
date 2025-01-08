@@ -11,12 +11,9 @@ add_subdirectory(third_party/libuv-1.49.2)
 
 add_library(
         camellia_lib STATIC
-
         builtin/defer.cc
-
         common/mutex.cc
         common/thread.cc
-
         token/file.cc
         token/pos.cc
         token/position.cc
@@ -27,6 +24,8 @@ target_link_libraries(camellia_lib PUBLIC fmt::fmt uv_a)
 
 add_executable(
         camellia_test
+        common/mutex_test.cc
+        common/thread_test.cc
         token/token_test.cc
 )
 target_link_libraries(camellia_test PRIVATE camellia_lib gtest gtest_main)
