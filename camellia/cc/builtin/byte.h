@@ -1,0 +1,6 @@
+#ifndef CAMELLIA_BUILTIN_BYTE_H
+#define CAMELLIA_BUILTIN_BYTE_H
+
+#define byte uint8_t
+
+#endif // CAMELLIA_BUILTIN_BYTE_H

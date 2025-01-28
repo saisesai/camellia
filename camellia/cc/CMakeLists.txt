@@ -9,6 +9,8 @@ add_subdirectory(third_party/fmt-11.1.0)
 add_subdirectory(third_party/googletest-1.15.2)
 add_subdirectory(third_party/libuv-1.49.2)
 
+target_compile_options(uv_a PRIVATE -Wno-everything)
+
 add_library(
         camellia_lib STATIC
         builtin/defer.cc
