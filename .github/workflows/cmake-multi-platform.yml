@@ -56,7 +56,7 @@ jobs:
     - name: Configure CMake
       run: >
         cmake
-        -G "Unix Makefiles"
+        -G "Ninja"
         -S ${{ github.workspace }}/camellia/cc
         -B ${{ steps.strings.outputs.build-output-dir }}
         -DCMAKE_CXX_COMPILER=${{ matrix.cpp_compiler }}
