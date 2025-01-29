@@ -68,6 +68,29 @@ class file_t {
   // It ignores any alternative positions set using add_line_colomn_info.
   // line_start panics if the 1-based line number is invalid.
   pos_t line_start(int p_line);
+
+  // add_line_info is like add_line_column_info with a column = 1 argument.
+  void add_line_info(int p_offset, const std::string& p_filename, int p_line);
+
+  // add_line_column_info adds alternative file, line, and column number
+  // information for a given file offset. The offset must be larger
+  // than the offset for the previously added alternative line info
+  // and smaller than the file size; otherwise the information is
+  // ignored.
+  //
+  // add_line_column_info is typically used to register alternative position
+  // information for line directives such as //line filename:line:column.
+  void add_line_column_info(int p_offset, const std::string& p_filename, int p_line, int p_column);
+
+  // pos returns the pos value for the given file offset;
+  // the offset must be <= f.size().
+  // f.pos(f.offset(p)) == p.
+  pos_t pos(int p_offset);
+
+  // offset returns the offset for the given file position p;
+  // p must be a valid Pos value in that file.
+  // f.offset(f.pos(offset)) == offset.
+  int offset(const pos_t& p_pos);
 };
 
 }  // namespace camellia::token

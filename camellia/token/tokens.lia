@@ -1,4 +1,4 @@
-import std/container/map[map_t];
+import {map_t} from "std/container/map";
 
 def tokens map_t<token_t, string> = {
     {k_begin, "BEGIN"},

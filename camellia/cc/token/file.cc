@@ -71,7 +71,6 @@ void file_t::set_lines(const std::vector<int>& p_lines) {
   self._lines = p_lines;
 }
 
-
 void file_t::set_lines_for_content(const std::vector<uint8_t>& p_content) {
   std::vector<int> lines;
   int line = 0;
@@ -96,10 +95,43 @@ pos_t file_t::line_start(int p_line) {
   }
   self._mutex.lock();
   defer(self._mutex.unlock());
-  if(p_line > self._lines.size()) {
-    panic("invalid line number {} (should be < {})", p_line, self._lines.size());
+  if (p_line > self._lines.size()) {
+    panic("invalid line number {} (should be < {})", p_line,
+          self._lines.size());
   }
-  return pos_t(self._base + self._lines[p_line-1]);
+  return pos_t(self._base + self._lines[p_line - 1]);
+}
+
+void file_t::add_line_info(int p_offset, const std::string& p_filename,
+                           int p_line) {
+  self.add_line_column_info(p_offset, p_filename, p_line, 1);
+}
+
+void file_t::add_line_column_info(int p_offset, const std::string& p_filename,
+                                  int p_line, int p_column) {
+  self._mutex.lock();
+  defer(self._mutex.unlock());
+  if (def const i = self._infos.size();
+      (i == 0 || self._infos[i - 1].offset < p_offset) &&
+      p_offset < self._size) {
+    self._infos.emplace_back(
+        line_info_t{p_offset, p_filename, p_line, p_column});
+  }
+}
+
+pos_t file_t::pos(int p_offset) {
+  if (p_offset > self.size()) {
+    panic("invalid file offset {} (should be <= {})", p_offset, self._size);
+  }
+  return pos_t{self._base + p_offset};
+}
+
+int file_t::offset(const pos_t& p_pos) {
+  if (p_pos.value < self._base || p_pos.value > self._base + self._size) {
+    panic("invalid Pos value {} (should be in [{}, {}])", p_pos, self._base,
+          self._base + self._size);
+  }
+  return p_pos.value - self._base;
 }
 
 }  // namespace camellia::token
