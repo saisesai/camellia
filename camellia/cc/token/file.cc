@@ -128,7 +128,7 @@ pos_t file_t::pos(int p_offset) {
 
 int file_t::offset(const pos_t& p_pos) {
   if (p_pos.value < self._base || p_pos.value > self._base + self._size) {
-    panic("invalid Pos value {} (should be in [{}, {}])", p_pos, self._base,
+    panic("invalid Pos value {} (should be in [{}, {}])", p_pos.value, self._base,
           self._base + self._size);
   }
   return p_pos.value - self._base;
