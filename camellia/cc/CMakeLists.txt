@@ -16,6 +16,7 @@ add_library(
         builtin/defer.cc
         common/mutex.cc
         common/thread.cc
+        sort/search.cc
         token/file.cc
         token/pos.cc
         token/position.cc
@@ -28,6 +29,8 @@ add_executable(
         camellia_test
         common/mutex_test.cc
         common/thread_test.cc
+        sort/search_test.cc
+        token/file_test.cc
         token/token_test.cc
 )
 target_link_libraries(camellia_test PRIVATE camellia_lib gtest gtest_main)

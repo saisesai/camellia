@@ -13,10 +13,7 @@ namespace camellia::token {
 // A file_t is a handle for a file belonging to a file_set_t.
 // A file_t has a name, size, and line offset table.
 class file_t {
-  std::string _name;  // file name as provided to add_file
-  int _base = 0;      // pos_t value range for this file is [base...base+size]
-  int _size = 0;      // file size as provided to add_file
-
+ public:
   // lines and infos are protected by mutex.
   common::mutex_t _mutex;
   // lines contains the offset of the first character for each line (the first entry is always 0).
@@ -80,7 +77,8 @@ class file_t {
   //
   // add_line_column_info is typically used to register alternative position
   // information for line directives such as //line filename:line:column.
-  void add_line_column_info(int p_offset, const std::string& p_filename, int p_line, int p_column);
+  void add_line_column_info(int p_offset, const std::string& p_filename,
+                            int p_line, int p_column);
 
   // pos returns the pos value for the given file offset;
   // the offset must be <= f.size().
@@ -91,6 +89,24 @@ class file_t {
   // p must be a valid Pos value in that file.
   // f.offset(f.pos(offset)) == offset.
   int offset(const pos_t& p_pos);
+
+  // line returns the line number for the given file position p;
+  // p must be a Pos value in that file or NoPos.
+
+ private:
+  std::string _name;  // file name as provided to add_file
+  int _base = 0;      // pos_t value range for this file is [base...base+size]
+  int _size = 0;      // file size as provided to add_file
+
+  // _unpack returns the filename and line and column number for a file offset.
+  // If adjusted is set, unpack will return the filename and line information
+  // possibly adjusted by //line comments; otherwise those comments are ignored.
+  std::tuple<std::string, int, int> _unpack(int p_offset, bool p_adjusted);
+
+  // helper functions
+ public:
+  static int search_ints(const std::vector<int>& p_vec, int p_value);
+  static int search_infos(const std::vector<line_info_t>& p_infos, int p_value);
 };
 
 }  // namespace camellia::token

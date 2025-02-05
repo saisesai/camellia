@@ -1,5 +1,7 @@
 #include "file.h"
 
+#include "sort/search.h"
+
 namespace camellia::token {
 
 std::string file_t::name() const {
@@ -128,10 +130,60 @@ pos_t file_t::pos(int p_offset) {
 
 int file_t::offset(const pos_t& p_pos) {
   if (p_pos.value < self._base || p_pos.value > self._base + self._size) {
-    panic("invalid Pos value {} (should be in [{}, {}])", p_pos.value, self._base,
-          self._base + self._size);
+    panic("invalid Pos value {} (should be in [{}, {}])", p_pos.value,
+          self._base, self._base + self._size);
   }
   return p_pos.value - self._base;
+}
+
+std::tuple<std::string, int, int> file_t::_unpack(int p_offset,
+                                                  bool p_adjusted) {
+  int line = 0, column = 0;
+  std::string filename = self._name;
+  self._mutex.lock();
+  defer(self._mutex.unlock());
+  if (const int i = search_ints(self._lines, p_offset); i >= 0) {
+    line = i + 1;
+    column = p_offset - self._lines[i] + 1;
+  }
+  if (p_adjusted && !self._infos.empty()) {
+    // few files have extra line infos
+    if (const int i = search_infos(self._infos, p_offset); i >= 0) {
+      const line_info_t& alt = self._infos[i];
+      filename = alt.filename;
+      if (const int j = search_ints(self._lines, alt.offset); j >= 0) {
+        // j+1 is the line at which the alternative position was recorded
+        const int d =
+            line - (j + 1);  // line distance from alternative position base
+        line = alt.line + d;
+        if (alt.column == 0) {
+          // alternative column is unknown => relative column is unknown
+          // (the current specification for line directives requires
+          // this to apply until the next PosBase/line directive,
+          // not just until the new newline)
+          column = 0;
+        } else if (d == 0) {
+          // the alternative position base is on the current line
+          // => column is relative to alternative column
+          column = alt.column + (p_offset - alt.offset);
+        }
+      }
+    }
+  }
+  return {filename, line, column};
+}
+
+int file_t::search_ints(const std::vector<int>& p_vec, int p_value) {
+  return sort::search(static_cast<int>(p_vec.size()),
+                      [&](const int i) -> bool { return p_vec[i] > p_value; }) -
+         1;
+}
+
+int file_t::search_infos(const std::vector<line_info_t>& p_infos, int p_value) {
+  return sort::search(
+             static_cast<int>(p_infos.size()),
+             [&](const int i) -> bool { return p_infos[i].offset > p_value; }) -
+         1;
 }
 
 }  // namespace camellia::token
