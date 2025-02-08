@@ -7,6 +7,7 @@
 
 #include "line_info.h"
 #include "pos.h"
+#include "position.h"
 
 namespace camellia::token {
 
@@ -91,7 +92,18 @@ class file_t {
   int offset(const pos_t& p_pos);
 
   // line returns the line number for the given file position p;
-  // p must be a Pos value in that file or NoPos.
+  // p must be a Pos value in that file or k_no_pos.
+  int line(const pos_t& p_pos);
+
+  // position_for returns the position_t value for the given file position p.
+  // If adjusted is set, the position may be adjusted by position-altering
+  // //line comments; otherwise those comments are ignored.
+  // p must be a pos_t value in f or k_no_pos.
+  position_t position_for(pos_t p_pos, bool p_adjusted);
+
+  // position returns the position_t value for the given file position p.
+  // Calling f.position(p) is equivalent to calling f.position_for(p, true).
+  position_t position(pos_t p_pos);
 
  private:
   std::string _name;  // file name as provided to add_file
@@ -102,6 +114,9 @@ class file_t {
   // If adjusted is set, unpack will return the filename and line information
   // possibly adjusted by //line comments; otherwise those comments are ignored.
   std::tuple<std::string, int, int> _unpack(int p_offset, bool p_adjusted);
+
+  // _postion returns postion info for the given pos
+  position_t _positon(pos_t p_pos, bool p_adjusted);
 
   // helper functions
  public:

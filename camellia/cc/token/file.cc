@@ -136,6 +136,26 @@ int file_t::offset(const pos_t& p_pos) {
   return p_pos.value - self._base;
 }
 
+int file_t::line(const pos_t& p_pos) {
+  return self.position(p_pos).line;
+}
+
+position_t file_t::position_for(pos_t p_pos, bool p_adjusted) {
+  position_t position = {};
+  if (p_pos.value != pos_t::k_no_pos) {
+    if (p_pos.value < self._base || self._base + self._size) {
+      panic("invalid Pos value {} (should be in [{}, {}])", p_pos.value,
+            self._base, self._base + self._size);
+    }
+    position = self._positon(p_pos, p_adjusted);
+  }
+  return position;
+}
+
+position_t file_t::position(pos_t p_pos) {
+  return position_for(p_pos, true);
+}
+
 std::tuple<std::string, int, int> file_t::_unpack(int p_offset,
                                                   bool p_adjusted) {
   int line = 0, column = 0;
@@ -171,6 +191,15 @@ std::tuple<std::string, int, int> file_t::_unpack(int p_offset,
     }
   }
   return {filename, line, column};
+}
+
+position_t file_t::_positon(pos_t p_pos, bool p_adjusted) {
+  position_t ans;
+  int offset = p_pos.value - self._base;
+  ans.offset = offset;
+  std::tie(ans.filename, ans.line, ans.column) =
+      self._unpack(offset, p_adjusted);
+  return ans;
 }
 
 int file_t::search_ints(const std::vector<int>& p_vec, int p_value) {

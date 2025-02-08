@@ -28,7 +28,7 @@ namespace camellia::token {
 // to the respective file set before the file implied by q.
 class pos_t {
  public:
-  const int k_no_pos = 0;
+  enum Value { k_no_pos = 0 };
   int value = 0;
 
   explicit pos_t(int p_value);
