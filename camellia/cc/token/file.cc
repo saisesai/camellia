@@ -56,7 +56,7 @@ void file_t::merge_line(int p_line) {
 std::vector<int> file_t::lines() {
   self._mutex.lock();
   defer(self._mutex.unlock());
-  auto copy = self._lines;
+  def copy = self._lines;
   return copy;
 }
 
@@ -104,13 +104,14 @@ pos_t file_t::line_start(int p_line) {
   return pos_t(self._base + self._lines[p_line - 1]);
 }
 
-void file_t::add_line_info(int p_offset, const std::string& p_filename,
-                           int p_line) {
+void file_t::add_line_info(const int p_offset, const std::string& p_filename,
+                           const int p_line) {
   self.add_line_column_info(p_offset, p_filename, p_line, 1);
 }
 
-void file_t::add_line_column_info(int p_offset, const std::string& p_filename,
-                                  int p_line, int p_column) {
+void file_t::add_line_column_info(const int p_offset,
+                                  const std::string& p_filename,
+                                  const int p_line, const int p_column) {
   self._mutex.lock();
   defer(self._mutex.unlock());
   if (def const i = self._infos.size();
@@ -140,7 +141,7 @@ int file_t::line(const pos_t& p_pos) {
   return self.position(p_pos).line;
 }
 
-position_t file_t::position_for(pos_t p_pos, bool p_adjusted) {
+position_t file_t::position_for(pos_t p_pos, const bool p_adjusted) {
   position_t position = {};
   if (p_pos.value != pos_t::k_no_pos) {
     if (p_pos.value < self._base || self._base + self._size) {
@@ -152,12 +153,12 @@ position_t file_t::position_for(pos_t p_pos, bool p_adjusted) {
   return position;
 }
 
-position_t file_t::position(pos_t p_pos) {
+position_t file_t::position(const pos_t p_pos) {
   return position_for(p_pos, true);
 }
 
-std::tuple<std::string, int, int> file_t::_unpack(int p_offset,
-                                                  bool p_adjusted) {
+std::tuple<std::string, int, int> file_t::_unpack(const int p_offset,
+                                                  const bool p_adjusted) {
   int line = 0, column = 0;
   std::string filename = self._name;
   self._mutex.lock();
@@ -169,7 +170,8 @@ std::tuple<std::string, int, int> file_t::_unpack(int p_offset,
   if (p_adjusted && !self._infos.empty()) {
     // few files have extra line infos
     if (const int i = search_infos(self._infos, p_offset); i >= 0) {
-      const line_info_t& alt = self._infos[i];
+      // ReSharper disable once CppUseStructuredBinding
+      const auto& alt = self._infos[i];
       filename = alt.filename;
       if (const int j = search_ints(self._lines, alt.offset); j >= 0) {
         // j+1 is the line at which the alternative position was recorded
@@ -193,22 +195,23 @@ std::tuple<std::string, int, int> file_t::_unpack(int p_offset,
   return {filename, line, column};
 }
 
-position_t file_t::_positon(pos_t p_pos, bool p_adjusted) {
+position_t file_t::_positon(const pos_t p_pos, const bool p_adjusted) {
   position_t ans;
-  int offset = p_pos.value - self._base;
+  const int offset = p_pos.value - self._base;
   ans.offset = offset;
   std::tie(ans.filename, ans.line, ans.column) =
       self._unpack(offset, p_adjusted);
   return ans;
 }
 
-int file_t::search_ints(const std::vector<int>& p_vec, int p_value) {
+int file_t::search_ints(const std::vector<int>& p_vec, const int p_value) {
   return sort::search(static_cast<int>(p_vec.size()),
                       [&](const int i) -> bool { return p_vec[i] > p_value; }) -
          1;
 }
 
-int file_t::search_infos(const std::vector<line_info_t>& p_infos, int p_value) {
+int file_t::search_infos(const std::vector<line_info_t>& p_infos,
+                         const int p_value) {
   return sort::search(
              static_cast<int>(p_infos.size()),
              [&](const int i) -> bool { return p_infos[i].offset > p_value; }) -
